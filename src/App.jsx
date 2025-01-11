@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
-
+import { Header, Footer } from "./components";
+import { AllRoutes } from "./routes/AllRoutes";
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <>
       <Header />
-      <Routes></Routes>
+      <AllRoutes />
       <Footer />
     </>
   );
