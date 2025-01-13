@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { NavLink, Link, useNavigate} from "react-router-dom";
-
+import { useCart } from "../context/CartContext";
 export const Header = () => {
+    const cartContext=useCart();
     const [darkMode, setDarkMode]=useState(JSON.parse(localStorage.getItem("darkMoade"))||true);
     const navigate=useNavigate();
     useEffect(()=>{
@@ -100,7 +101,7 @@ export const Header = () => {
                 </svg>
               )}
             </button>
-            <span>cart:2</span>
+            <span>cart:{cartContext.cartCount}</span>
           </div>
         </div>
       </nav>
