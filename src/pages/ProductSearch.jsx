@@ -27,7 +27,7 @@ export const ProductSearch = () => {
   return (
     <main className="dark:bg-gray-700">
       <div className="w-4/5 py-4 mx-auto text-2xl text-gray-700 dark:text-white">
-        <span className="">{(filteredProducts.length>0)?`Search Results For '${squery}'`:`No Search Results Found For '${squery}'`}</span>
+        <span>{(filteredProducts.length>0)?`Search Results For '${squery}'`:`No Search Results Found For '${squery}'`}</span>
       </div>
       <div className="flex justify-center flex-wrap">
         {filteredProducts &&
