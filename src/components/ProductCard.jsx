@@ -1,11 +1,14 @@
 //Suarabh adam
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
 
 export const ProductCard = ({ product }) => {
-  const [prodAdded, setProdAdded] = useState(false);
+  const [prodAdded, setProdAdded] = useState(JSON.parse(localStorage.getItem(`prodAdded${product.id}`))||false);
   const cartContext = useCart();
   console.log(cartContext.cart);
+  useEffect(()=>{
+    localStorage.setItem(`prodAdded${product.id}`,JSON.stringify(prodAdded));
+  },[prodAdded]);
   return (
     <>
       <div className="w-80 m-4 p-2 text-gray-700 bg-white border rounded border-slate-700 flex-col justify-center">
@@ -32,10 +35,8 @@ export const ProductCard = ({ product }) => {
                   (prod) => prod.id !== product.id
                 );
                 cartContext.setCart(arr);
-                cartContext.setCartCount(cartContext.cartCount - 1);
               } else {
                 cartContext.setCart([...cartContext.cart, product]);
-                cartContext.setCartCount(cartContext.cartCount + 1);
               }
             }}
           >
