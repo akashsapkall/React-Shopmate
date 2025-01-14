@@ -1,54 +1,35 @@
 import { createContext, useState, useContext, useEffect } from "react";
 
-const cartContext= createContext(null);
+const cartContext = createContext(null);
 
-export const CartContext=({children})=>{
-    const [cart,setCart]=useState(JSON.parse(localStorage.getItem("cartArr"))||[]);
-    useEffect(()=>{
-        localStorage.setItem("cartArr",JSON.stringify(cart));
-    },[cart]);
-    return(
-        <cartContext.Provider value={{ cart, setCart }}>
-            {children}
-        </cartContext.Provider>
-    )
-}
-export const useCart=()=>{
-    return useContext(cartContext);
-}
+export const CartContext = ({ children }) => {
+  const [cart, setCart] = useState(JSON.parse(localStorage.getItem("cartArr")) || []);
+  const [total, setTotal] = useState(0);
 
-// import { createContext, useState, useContext, useEffect } from "react";
+  const addToCart = (product) => {
+    setCart((prevCart) => [...prevCart, product]);
+  };
 
-// const cartContext = createContext(null);
+  const removeFromCart = (product) => {
+    setCart((prevCart) => prevCart.filter((prod) => prod.id !== product.id));
+  };
 
-// export const CartContext = ({ children }) => {
-//   const initialCart = () => {
-//     try {
-//       const storedCart = JSON.parse(localStorage.getItem("cartArr"));
-//       return Array.isArray(storedCart) ? storedCart : [];
-//     } catch (error) {
-//       console.error("Error parsing localStorage data:", error);
-//       return [];
-//     }
-//   };
+  useEffect(() => {
+    // Update localStorage whenever cart changes
+    localStorage.setItem("cartArr", JSON.stringify(cart));
 
-//   const [cart, setCart] = useState(initialCart());
+    // Recalculate total whenever cart changes
+    const newTotal = cart.reduce((acc, curProduct) => acc + curProduct.price, 0);
+    setTotal(newTotal);
+  }, [cart]);
 
-//   useEffect(() => {
-//     try {
-//       localStorage.setItem("cartArr", JSON.stringify(cart));
-//     } catch (error) {
-//       console.error("Error saving to localStorage:", error);
-//     }
-//   }, [cart]);
+  return (
+    <cartContext.Provider value={{ cart, setCart, addToCart, removeFromCart, total }}>
+      {children}
+    </cartContext.Provider>
+  );
+};
 
-//   return (
-//     <cartContext.Provider value={{ cart, setCart }}>
-//       {children}
-//     </cartContext.Provider>
-//   );
-// };
-
-// export const useCart = () => {
-//   return useContext(cartContext);
-// };
+export const useCart = () => {
+  return useContext(cartContext);
+};
