@@ -101,7 +101,7 @@ export const Header = () => {
                 </svg>
               )}
             </button>
-            <span>cart:{cartContext.cartCount}</span>
+            <span>cart:{cartContext.cart.length}</span>
           </div>
         </div>
       </nav>
