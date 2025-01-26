@@ -1,10 +1,13 @@
 //Suarabh adam
 import { useEffect, useState } from "react";
-import { useCart } from "../context/CartContext";
-
+import { useDispatch, useSelector } from "react-redux";
+import { add, remove } from "../store/cartSlice";
+// import { useCart } from "../context/CartContext";
 export const ProductCard = ({ product }) => {
   const [prodAdded, setProdAdded] = useState(false);
-  const { cart, addToCart, removeFromCart } = useCart();
+  const dispatch = useDispatch();
+  const cart=useSelector((state)=>state.cart.cartList);
+  // const { cart, addToCart, removeFromCart } = useCart();
   useEffect(() => {
     const isAdded = cart.find((curProd) => curProd.id === product.id);
     if (isAdded) {
@@ -34,14 +37,14 @@ export const ProductCard = ({ product }) => {
           {prodAdded ? (
             <button
               className="px-2 py-1 rounded bg-red-700 text-white hover:bg-red-900"
-              onClick={()=>removeFromCart(product)}
+              onClick={()=>dispatch(remove(product))}
             >
               Remove
             </button>
           ) : (
             <button
               className="px-2 py-1 rounded bg-blue-700 text-white hover:bg-blue-900"
-              onClick={()=>addToCart(product)}
+              onClick={()=>dispatch(add(product))}
             >
               Add To Cart
             </button>
