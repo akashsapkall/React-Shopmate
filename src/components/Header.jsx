@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { NavLink, Link, useNavigate} from "react-router-dom";
-import { useCart } from "../context/CartContext";
+// import { useCart } from "../context/CartContext";
+import { useSelector } from "react-redux";
 export const Header = () => {
-    const cartContext=useCart();
+    // const cartContext=useCart();
+    const cart =useSelector((state)=>state.cart.cartList);
     const [darkMode, setDarkMode]=useState(JSON.parse(localStorage.getItem("darkMoade"))||true);
     const navigate=useNavigate();
     useEffect(()=>{
@@ -101,7 +103,7 @@ export const Header = () => {
                 </svg>
               )}
             </button>
-            <span>cart:{cartContext.cart.length}</span>
+            <span>cart:{cart.length}</span>
           </div>
         </div>
       </nav>

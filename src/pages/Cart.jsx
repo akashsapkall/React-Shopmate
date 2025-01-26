@@ -1,13 +1,18 @@
 import { useTitle } from "../hooks/useTitle"
-import { useCart } from "../context/CartContext";
-import { useState } from "react";
+import { remove} from '../store/cartSlice'
+// import { useCart } from "../context/CartContext";
+// import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 export const Cart=()=>{
-    const { cart, removeFromCart, total }=useCart();
+    // const { cart, removeFromCart, total }=useCart();
+    const dispatch=useDispatch();
+    const cart=useSelector((state)=>state.cart.cartList);
+    // const total=useSelector((state)=>state.cart.total);
     useTitle("Cart");
-    // let total=0;
-    // cartContext.cart.map((product)=>{
-    //     total+=product.price;
-    // });
+    let total=0;
+    cart.map((product)=>{
+        total+=product.price;
+    });
     // const handleClick=(pid)=>{
     //     const arr=cartContext.cart.filter((prod)=>prod.id!==pid);
     //     cartContext.setCart(arr);
@@ -21,7 +26,7 @@ export const Cart=()=>{
                     <span className="w-52">{product.name}</span>
                     <span className="w-16">${product.price}</span>
                     <button className="bg-red-700 hover:bg-red-900 text-white text-lg px-2 py-1 rounded"
-                    onClick={()=>removeFromCart(product)}
+                    onClick={()=>dispatch(remove(product))}
                     >Remove</button>
                 </div>
                 ))}
